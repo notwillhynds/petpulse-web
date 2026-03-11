@@ -11,12 +11,15 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import {
-  Popover,
-  PopoverContent,
-  PopoverHeader,
-  PopoverTitle,
-  PopoverTrigger,
-} from '../ui/popover';
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from '@/components/ui/drawer';
 
 const supabase = createClient();
 
@@ -27,6 +30,7 @@ export default function SignUpForm() {
   const [token, setToken] = useState('');
   const [verifying, setVerifying] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [open, setOpen] = useState(false);
   const [error, setError] = useState('');
 
   const emailPattern =
@@ -35,8 +39,10 @@ export default function SignUpForm() {
   const isEmailValid = email.length > 0 && emailPattern.test(email);
   const isPasswordValid = password.length > 6 && confirmPassword === password;
   const canSubmit = isEmailValid && isPasswordValid;
+  const isMobile = window.innerWidth < 768;
 
   const handleSignup = async () => {
+    setSubmitted(true);
     try {
       const { data, error } = await supabase.auth.signUp({ email, password });
 
@@ -44,7 +50,7 @@ export default function SignUpForm() {
         setError('User already exists');
         return;
       }
-      setSubmitted(true);
+
       setVerifying(true);
     } catch (error) {
       console.error('Signup: ', error);
@@ -66,8 +72,103 @@ export default function SignUpForm() {
       console.error('Signup: ', error);
     } finally {
       setSubmitted(false);
+      setOpen(false);
     }
   };
+
+  if (isMobile) {
+    return (
+      <Drawer direction="top" open={open} onOpenChange={setOpen}>
+        <DrawerTrigger asChild>
+          <div className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-full px-4 py-1.5 text-sm font-medium transition-colors">
+            Sign up
+          </div>
+        </DrawerTrigger>
+        <DrawerContent>
+          <DrawerHeader>
+            <DrawerTitle>Sign up</DrawerTitle>
+          </DrawerHeader>
+          {!verifying ? (
+            <div className="mx-8 mb-8 flex flex-col">
+              <label htmlFor="email" className="text-sm font-bold">
+                Email
+              </label>
+              <input
+                id="email"
+                type="email"
+                placeholder="Enter your email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className={cn(
+                  'bg-input-bg-alpha border-input-border-alpha focus-visible:border-tint my-2 mb-4 rounded-md border p-1',
+                  isEmailValid && 'border-green-600 focus-visible:border-green-600'
+                )}
+              />
+              <label htmlFor="password" className="text-sm font-bold">
+                Password
+              </label>
+              <input
+                id="password"
+                type="password"
+                placeholder="Enter your password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className={cn(
+                  'bg-input-bg-alpha border-input-border-alpha focus-visible:border-tint my-2 mb-4 rounded-md border p-1',
+                  isPasswordValid && 'border-green-600 focus-visible:border-green-600'
+                )}
+              />
+              <label htmlFor="confirmPassword" className="text-sm font-bold">
+                Confirm Password
+              </label>
+              <input
+                id="confirmPassword"
+                type="password"
+                placeholder="Re-enter your password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && canSubmit && handleSignup()}
+                className={cn(
+                  'bg-input-bg-alpha border-input-border-alpha focus-visible:border-tint my-2 mb-4 rounded-md border p-1',
+                  isPasswordValid && 'border-green-600 focus-visible:border-green-600'
+                )}
+              />
+              {error && <div className="mb-2 text-xs text-red-500">{error}</div>}
+              <button
+                className="bg-brand-black mt-2 flex cursor-pointer items-center justify-center rounded-md p-2 text-white hover:opacity-80 active:opacity-70 disabled:cursor-not-allowed disabled:opacity-50"
+                disabled={!canSubmit}
+                onClick={handleSignup}
+              >
+                {submitted ? <Loader className="h-4 w-4 animate-spin" /> : 'Sign up'}
+              </button>
+            </div>
+          ) : (
+            <div className="mx-8 mb-8 flex flex-col">
+              <label htmlFor="token" className="text-sm font-bold">
+                Enter the token you received via email
+              </label>
+              <input
+                id="token"
+                type="text"
+                placeholder="Enter your token"
+                value={token}
+                onChange={(e) => setToken(e.target.value)}
+                className="my-4 rounded-md border p-1"
+              />
+              <div className="mt-2 text-xs text-red-500">{error}</div>
+              <button
+                className="bg-brand-black flex cursor-pointer items-center justify-center rounded-md p-2 text-white hover:opacity-80 active:opacity-70 disabled:cursor-not-allowed disabled:opacity-50"
+                disabled={token.length === 0}
+                onClick={handleOtpVerify}
+              >
+                {submitted ? <Loader className="h-4 w-4 animate-spin" /> : 'Verify'}
+              </button>
+            </div>
+          )}
+        </DrawerContent>
+      </Drawer>
+    );
+  }
 
   return (
     <Dialog>

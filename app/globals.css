@@ -199,6 +199,12 @@
 }
 
 @layer base {
+  :root {
+    --bg: #ffffff;
+  }
+  .dark {
+    --bg: #190033;
+  }
   * {
     @apply border-border;
   }

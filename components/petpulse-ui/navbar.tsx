@@ -47,7 +47,7 @@ export function Navbar() {
   const [loadingAuth, setLoadingAuth] = useState(true);
   const [user, setUser] = useState<User | null>(null);
   const [mounted, setMounted] = useState(false);
-  const { theme, setTheme } = useTheme();
+  const { theme, resolvedTheme, setTheme } = useTheme();
 
   useEffect(() => setMounted(true), []);
 
@@ -125,7 +125,7 @@ export function Navbar() {
 
         <div className="flex items-center gap-3">
           {!loadingAuth && !isAuthenticated && (
-            <div className="flex items-center gap-2">
+            <div className="hidden items-center gap-2 md:flex">
               <LoginForm />
               <SignUpForm />
             </div>
@@ -137,7 +137,7 @@ export function Navbar() {
                   <UserIcon className="h-5 w-5" />
                 </div>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="start">
+              <DropdownMenuContent align="end" side="bottom" sideOffset={10}>
                 <DropdownMenuLabel className="text-xs font-medium">
                   <div className="flex items-center gap-2">
                     <UserIcon className="h-4 w-4" />
@@ -153,6 +153,17 @@ export function Navbar() {
                     </div>
                   </Link>
                 </DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() => {
+                    setTheme(theme === 'dark' ? 'light' : 'dark');
+                  }}
+                >
+                  <div className="flex items-center gap-2">
+                    {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4, w-4" />}
+                    {theme === 'dark' ? 'Light mode' : 'Dark mode'}
+                  </div>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={handleSignOut}>
                   <LogOut className="h-4 w-4" />
                   Sign out
@@ -170,7 +181,7 @@ export function Navbar() {
             {mobileOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
           </button>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="hidden items-center gap-2 md:flex">
           <button
             type="button"
             className={cn(
@@ -199,6 +210,25 @@ export function Navbar() {
       {mobileOpen && (
         <div className="bg-background border-t md:hidden">
           <nav className="mx-auto flex max-w-5xl flex-col gap-2 px-4 py-3">{navLinks}</nav>
+          <div className="flex items-center justify-between px-4 py-3">
+            {!loadingAuth && !isAuthenticated && (
+              <div className="flex flex-row items-center gap-2">
+                <LoginForm />
+                <SignUpForm />
+              </div>
+            )}
+            {!loadingAuth && !isAuthenticated && (
+              <button
+                type="button"
+                className="border-border text-foreground hover:bg-accent hover:text-accent-foreground inline-flex h-9 w-9 items-center justify-center rounded-full border transition-colors"
+                onClick={() => {
+                  setTheme(theme === 'dark' ? 'light' : 'dark');
+                }}
+              >
+                {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4, w-4" />}
+              </button>
+            )}
+          </div>
         </div>
       )}
     </header>
