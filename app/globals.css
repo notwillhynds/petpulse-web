@@ -199,12 +199,17 @@
 }
 
 @layer base {
+  :root {
+    --bg: #ffffff;
+  }
+  .dark {
+    --bg: #190033;
+  }
   * {
     @apply border-border;
   }
   *:focus-visible {
-    outline: 2px solid var(--tint);
-    outline-offset: 2px;
+    outline: none;
   }
   body {
     @apply bg-background text-foreground;
