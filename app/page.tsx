@@ -1,5 +1,6 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { LiveMonitorWidget } from "@/components/ui/live-monitor-widget";
 import { Activity, Heart, Smartphone } from "lucide-react";
 import Image from "next/image";
 import {
@@ -98,8 +99,11 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="w-full max-w-2xl rounded-3xl border border-border bg-gradient-to-br from-primary/5 to-transparent p-6 shadow-sm backdrop-blur">
-            <Carousel images={HARNESS_IMAGES} />
+          <div className="w-full max-w-2xl space-y-4">
+            <div className="rounded-3xl border border-border bg-gradient-to-br from-primary/5 to-transparent p-6 shadow-sm backdrop-blur">
+              <Carousel images={HARNESS_IMAGES} />
+            </div>
+            <LiveMonitorWidget />
           </div>
         </section>
 
@@ -156,7 +160,7 @@ export default function Home() {
 
           <div className="overflow-hidden rounded-2xl border border-border/70 bg-background/80">
             <Image
-              src="/images/harness-6.png"
+              src="/images/harness-7.png"
               alt="PetPulse harness on a dog outdoors"
               width={1200}
               height={900}
