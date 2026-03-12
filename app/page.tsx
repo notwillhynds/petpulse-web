@@ -43,7 +43,7 @@ const HARNESS_IMAGES = [
     alt: 'Dog wearing the PetPulse smart harness on a walk',
   },
   {
-    src: '/images/cat-4.png',
+    src: '/images/harness-4.png',
     alt: 'a cat wearing the PetPulse smart harness on a walk',
   },
 ];
