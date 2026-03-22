@@ -48,9 +48,10 @@ The application includes a comprehensive user settings page (`/user/settings`) w
 
 - **Display Name**: Users can update their display name stored in the profiles table
 - **Password Change**: Users can change their password securely
-- **Email Change**: Users can change their email with OTP verification via Supabase
-  - Sends a verification code to the new email
-  - Validates the code before updating the email
+- **Email Change**: Users can change their email with secure email verification via Supabase
+  - Sends confirmation emails to both current and new email addresses
+  - Requires confirmation from both emails before completing the change
+  - Uses Supabase's built-in secure email change flow
 
 All changes are protected with proper authentication and row-level security policies.
 

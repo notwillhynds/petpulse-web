@@ -35,11 +35,10 @@ export default function UserSettingsClient({ user, initialProfile }: UserSetting
   const [passwordError, setPasswordError] = useState('');
 
   const [newEmail, setNewEmail] = useState('');
-  const [emailOtp, setEmailOtp] = useState('');
   const [emailLoading, setEmailLoading] = useState(false);
   const [emailSuccess, setEmailSuccess] = useState(false);
   const [emailError, setEmailError] = useState('');
-  const [emailOtpSent, setEmailOtpSent] = useState(false);
+  const [emailChangeRequested, setEmailChangeRequested] = useState(false);
 
   const emailPattern =
     /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
@@ -125,38 +124,8 @@ export default function UserSettingsClient({ user, initialProfile }: UserSetting
       if (error) {
         setEmailError(error.message);
       } else {
-        setEmailOtpSent(true);
-      }
-    } catch (error) {
-      setEmailError((error as Error).message);
-    } finally {
-      setEmailLoading(false);
-    }
-  };
-
-  const handleVerifyEmailChange = async () => {
-    setEmailLoading(true);
-    setEmailError('');
-    setEmailSuccess(false);
-
-    try {
-      const { error } = await supabase.auth.verifyOtp({
-        email: newEmail,
-        token: emailOtp,
-        type: 'email_change',
-      });
-
-      if (error) {
-        setEmailError(error.message);
-      } else {
+        setEmailChangeRequested(true);
         setEmailSuccess(true);
-        setNewEmail('');
-        setEmailOtp('');
-        setEmailOtpSent(false);
-        setTimeout(() => {
-          setEmailSuccess(false);
-          window.location.reload();
-        }, 2000);
       }
     } catch (error) {
       setEmailError((error as Error).message);
@@ -286,7 +255,7 @@ export default function UserSettingsClient({ user, initialProfile }: UserSetting
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            {!emailOtpSent ? (
+            {!emailChangeRequested ? (
               <>
                 <div>
                   <label htmlFor="newEmail" className="mb-2 block text-sm font-medium">
@@ -317,57 +286,41 @@ export default function UserSettingsClient({ user, initialProfile }: UserSetting
                   {emailLoading ? (
                     <Loader className="h-4 w-4 animate-spin" />
                   ) : (
-                    'Send Verification Code'
+                    'Request Email Change'
                   )}
                 </Button>
               </>
             ) : (
               <>
-                <div className="rounded-md bg-blue-50 p-4 text-sm text-blue-800 dark:bg-blue-950 dark:text-blue-200">
-                  A verification code has been sent to <strong>{newEmail}</strong>. Please check
-                  your inbox and enter the code below.
-                </div>
-                <div>
-                  <label htmlFor="emailOtp" className="mb-2 block text-sm font-medium">
-                    Verification Code
-                  </label>
-                  <input
-                    id="emailOtp"
-                    type="text"
-                    placeholder="Enter verification code"
-                    value={emailOtp}
-                    onChange={(e) => setEmailOtp(e.target.value)}
-                    className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-                  />
-                </div>
-                {emailError && (
-                  <div className="flex items-center gap-2 text-sm text-red-500">
-                    <AlertCircle className="h-4 w-4" />
-                    {emailError}
-                  </div>
-                )}
-                {emailSuccess && (
-                  <div className="flex items-center gap-2 text-sm text-green-600">
+                <div className="rounded-md bg-green-50 p-4 text-sm text-green-800 dark:bg-green-950 dark:text-green-200">
+                  <div className="mb-2 flex items-center gap-2 font-semibold">
                     <Check className="h-4 w-4" />
-                    Email updated successfully! Refreshing...
+                    Verification emails sent!
                   </div>
-                )}
-                <div className="flex gap-2">
-                  <Button onClick={handleVerifyEmailChange} disabled={emailLoading || !emailOtp}>
-                    {emailLoading ? <Loader className="h-4 w-4 animate-spin" /> : 'Verify Code'}
-                  </Button>
-                  <Button
-                    variant="outline"
-                    onClick={() => {
-                      setEmailOtpSent(false);
-                      setEmailOtp('');
-                      setEmailError('');
-                    }}
-                    disabled={emailLoading}
-                  >
-                    Cancel
-                  </Button>
+                  <p className="mb-2">
+                    Supabase has sent confirmation emails to both your current email (
+                    <strong>{user.email}</strong>) and your new email (<strong>{newEmail}</strong>
+                    ).
+                  </p>
+                  <p className="mb-2">
+                    Please check both inboxes and click the confirmation links to complete the email
+                    change.
+                  </p>
+                  <p className="text-xs opacity-80">
+                    Note: You may need to check your spam/junk folders if you don't see the emails.
+                  </p>
                 </div>
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    setEmailChangeRequested(false);
+                    setNewEmail('');
+                    setEmailError('');
+                    setEmailSuccess(false);
+                  }}
+                >
+                  Request Different Email
+                </Button>
               </>
             )}
           </CardContent>

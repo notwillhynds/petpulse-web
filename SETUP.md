@@ -51,9 +51,9 @@ You can check these in the Supabase dashboard under:
 - **Database** → **Tables** (to see the profiles table)
 - **Authentication** → **Policies** (to see RLS policies)
 
-## Email Configuration for OTP Verification
+## Email Configuration for Email Change Verification
 
-For email change verification to work properly, you need to configure email settings in Supabase:
+For email change verification to work properly, you need to configure email settings in Supabase. Supabase sends confirmation emails with secure links to both your current and new email addresses.
 
 ### 1. Configure Email Templates
 
@@ -111,18 +111,20 @@ Find these values in your Supabase dashboard:
    - **Password Change**: Enter a new password (min 6 characters) and confirm it
    - **Email Change**: 
      - Enter a new email address
-     - Click "Send Verification Code"
-     - Check your email for the OTP code
-     - Enter the code and click "Verify Code"
+     - Click "Request Email Change"
+     - Check **both** your current and new email inboxes
+     - Click the confirmation links in both emails to complete the change
+     - The change is only completed after both emails are confirmed
 
 ## Troubleshooting
 
-### Email OTP not received
+### Email confirmation not received
 
-1. Check your spam/junk folder
+1. Check your spam/junk folder for both your current and new email addresses
 2. Verify email templates are enabled in Supabase dashboard
 3. Check Supabase logs: **Logs** → **Auth Logs**
 4. Ensure the email provider is configured correctly
+5. Make sure both confirmation emails are clicked (current AND new email)
 
 ### Database errors
 
