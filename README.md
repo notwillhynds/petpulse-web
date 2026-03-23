@@ -54,4 +54,3 @@ The application includes a comprehensive user settings page (`/user/settings`) w
   - Uses Supabase's built-in secure email change flow
 
 All changes are protected with proper authentication and row-level security policies.
-

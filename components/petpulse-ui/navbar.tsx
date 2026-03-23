@@ -145,15 +145,16 @@ export function Navbar() {
                   </div>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>
-                  <Link href="/user/settings">
+                <Link href="/user/settings">
+                  <DropdownMenuItem className="cursor-pointer">
                     <div className="flex items-center gap-2">
                       <Cog className="h-4 w-4" />
                       Settings
                     </div>
-                  </Link>
-                </DropdownMenuItem>
+                  </DropdownMenuItem>
+                </Link>
                 <DropdownMenuItem
+                  className="cursor-pointer"
                   onClick={() => {
                     setTheme(theme === 'dark' ? 'light' : 'dark');
                   }}
@@ -164,7 +165,7 @@ export function Navbar() {
                   </div>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={handleSignOut}>
+                <DropdownMenuItem onClick={handleSignOut} className="cursor-pointer">
                   <LogOut className="h-4 w-4" />
                   Sign out
                 </DropdownMenuItem>

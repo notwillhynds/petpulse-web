@@ -48,6 +48,7 @@ After running the migration, verify that:
 4. The trigger `on_auth_user_created` is active
 
 You can check these in the Supabase dashboard under:
+
 - **Database** → **Tables** (to see the profiles table)
 - **Authentication** → **Policies** (to see RLS policies)
 
@@ -98,6 +99,7 @@ Find these values in your Supabase dashboard:
 ## Testing the Setup
 
 1. Start the development server:
+
    ```bash
    npm run dev
    ```
@@ -109,7 +111,7 @@ Find these values in your Supabase dashboard:
 4. Test each feature:
    - **Name Update**: Enter a name and click "Update Name"
    - **Password Change**: Enter a new password (min 6 characters) and confirm it
-   - **Email Change**: 
+   - **Email Change**:
      - Enter a new email address
      - Click "Request Email Change"
      - Check **both** your current and new email inboxes

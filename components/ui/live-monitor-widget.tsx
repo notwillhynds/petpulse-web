@@ -158,7 +158,7 @@ export function LiveMonitorWidget() {
                     {metric.label}
                   </span>
                 </div>
-                <span className="text-foreground shrink-0 whitespace-nowrap text-[11px] font-semibold">
+                <span className="text-foreground shrink-0 text-[11px] font-semibold whitespace-nowrap">
                   {formatMetricValue(value)} {metric.unit}
                 </span>
               </div>

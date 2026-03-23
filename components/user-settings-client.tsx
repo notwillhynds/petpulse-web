@@ -7,10 +7,20 @@ import { Button } from '@/components/ui/button';
 import { Loader, Mail, Lock, User as UserIcon, Check, AlertCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import type { User } from '@supabase/supabase-js';
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogClose,
+} from './ui/dialog';
 
 interface Profile {
   id: string;
-  name?: string;
+  first_name?: string;
+  last_name?: string;
   created_at?: string;
 }
 
@@ -21,8 +31,8 @@ interface UserSettingsClientProps {
 
 export default function UserSettingsClient({ user, initialProfile }: UserSettingsClientProps) {
   const supabase = createClient();
-
-  const [name, setName] = useState(initialProfile?.name || '');
+  const [firstName, setFirstName] = useState(initialProfile?.first_name || '');
+  const [lastName, setLastName] = useState(initialProfile?.last_name || '');
   const [nameLoading, setNameLoading] = useState(false);
   const [nameSuccess, setNameSuccess] = useState(false);
   const [nameError, setNameError] = useState('');
@@ -51,7 +61,7 @@ export default function UserSettingsClient({ user, initialProfile }: UserSetting
     try {
       const { error } = await supabase
         .from('profiles')
-        .upsert({ id: user.id, name }, { onConflict: 'id' });
+        .upsert({ id: user.id, first_name: firstName, last_name: lastName }, { onConflict: 'id' });
 
       if (error) {
         setNameError(error.message);
@@ -61,6 +71,7 @@ export default function UserSettingsClient({ user, initialProfile }: UserSetting
       }
     } catch (error) {
       setNameError((error as Error).message);
+      console.error(error);
     } finally {
       setNameLoading(false);
     }
@@ -143,23 +154,44 @@ export default function UserSettingsClient({ user, initialProfile }: UserSetting
           <CardHeader>
             <div className="flex items-center gap-2">
               <UserIcon className="h-5 w-5" />
-              <CardTitle>Display Name</CardTitle>
+              {initialProfile?.first_name && initialProfile?.last_name ? (
+                <CardTitle>
+                  Display Name: {''}
+                  {initialProfile.first_name} {initialProfile.last_name}
+                </CardTitle>
+              ) : (
+                <CardTitle>Display Name</CardTitle>
+              )}
             </div>
             <CardDescription>Update your display name</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div>
               <label htmlFor="name" className="mb-2 block text-sm font-medium">
-                Name
+                First Name
               </label>
               <input
                 id="name"
                 type="text"
-                placeholder="Enter your name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                placeholder="Enter your first name"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
                 className={cn(
-                  'w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
+                  'border-input bg-background ring-offset-background focus-visible:ring-ring mb-2 w-full rounded-md border px-3 py-2 text-sm focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none',
+                  nameSuccess && 'border-green-600'
+                )}
+              />
+              <label htmlFor="name" className="mb-2 block text-sm font-medium">
+                Last Name
+              </label>
+              <input
+                id="name"
+                type="text"
+                placeholder="Enter your last name"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+                className={cn(
+                  'border-input bg-background ring-offset-background focus-visible:ring-ring w-full rounded-md border px-3 py-2 text-sm focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none',
                   nameSuccess && 'border-green-600'
                 )}
               />
@@ -176,9 +208,39 @@ export default function UserSettingsClient({ user, initialProfile }: UserSetting
                 Name updated successfully!
               </div>
             )}
-            <Button onClick={handleUpdateName} disabled={nameLoading || !name}>
-              {nameLoading ? <Loader className="h-4 w-4 animate-spin" /> : 'Update Name'}
-            </Button>
+            {initialProfile?.first_name && initialProfile?.last_name ? (
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button>
+                    {nameLoading ? <Loader className="h-4 w-4 animate-spin" /> : 'Update Name'}
+                  </Button>
+                </DialogTrigger>
+
+                <DialogContent>
+                  <DialogTitle>Are you sure?</DialogTitle>
+                  <DialogFooter>
+                    <div className="mt-4 flex w-full items-center gap-2">
+                      <Button
+                        variant="destructive"
+                        onClick={handleUpdateName}
+                        disabled={nameLoading || !firstName || !lastName}
+                      >
+                        {nameLoading ? <Loader className="h-4 w-4 animate-spin" /> : 'Update Name'}
+                      </Button>
+                      <DialogClose asChild>
+                        <Button variant="outline">
+                          {nameLoading ? <Loader className="h-4 w-4 animate-spin" /> : 'Cancel'}
+                        </Button>
+                      </DialogClose>
+                    </div>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
+            ) : (
+              <Button onClick={handleUpdateName} disabled={nameLoading || !firstName || !lastName}>
+                {nameLoading ? <Loader className="h-4 w-4 animate-spin" /> : 'Update Name'}
+              </Button>
+            )}
           </CardContent>
         </Card>
 
@@ -201,7 +263,7 @@ export default function UserSettingsClient({ user, initialProfile }: UserSetting
                 placeholder="Enter new password"
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
-                className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                className="border-input bg-background ring-offset-background focus-visible:ring-ring w-full rounded-md border px-3 py-2 text-sm focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
               />
             </div>
             <div>
@@ -215,7 +277,7 @@ export default function UserSettingsClient({ user, initialProfile }: UserSetting
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 className={cn(
-                  'w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
+                  'border-input bg-background ring-offset-background focus-visible:ring-ring w-full rounded-md border px-3 py-2 text-sm focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none',
                   newPassword &&
                     confirmPassword &&
                     newPassword === confirmPassword &&
@@ -268,7 +330,7 @@ export default function UserSettingsClient({ user, initialProfile }: UserSetting
                     value={newEmail}
                     onChange={(e) => setNewEmail(e.target.value)}
                     className={cn(
-                      'w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
+                      'border-input bg-background ring-offset-background focus-visible:ring-ring w-full rounded-md border px-3 py-2 text-sm focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none',
                       newEmail && emailPattern.test(newEmail) && 'border-green-600'
                     )}
                   />

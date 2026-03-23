@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import * as React from "react";
-import { cn } from "@/lib/utils";
+import * as React from 'react';
+import { cn } from '@/lib/utils';
 
 type CarouselProps = {
   images: { src: string; alt: string }[];
@@ -23,12 +23,9 @@ export function Carousel({ images, className }: CarouselProps) {
 
   return (
     <div
-      className={cn(
-        "relative overflow-hidden rounded-2xl border border-border bg-card",
-        className,
-      )}
+      className={cn('border-border bg-card relative overflow-hidden rounded-2xl border', className)}
     >
-      <div className="aspect-[4/3] w-full bg-muted">
+      <div className="bg-muted aspect-[4/3] w-full">
         {/* In a real app, swap this for next/image */}
         <img
           src={images[index].src}
@@ -40,14 +37,14 @@ export function Carousel({ images, className }: CarouselProps) {
       <button
         type="button"
         onClick={showPrev}
-        className="absolute left-3 top-1/2 -translate-y-1/2 rounded-full bg-background/80 px-3 py-1 text-xs font-medium text-foreground shadow-sm hover:bg-background"
+        className="bg-background/80 text-foreground hover:bg-background absolute top-1/2 left-3 -translate-y-1/2 rounded-full px-3 py-1 text-xs font-medium shadow-sm"
       >
         Prev
       </button>
       <button
         type="button"
         onClick={showNext}
-        className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full bg-background/80 px-3 py-1 text-xs font-medium text-foreground shadow-sm hover:bg-background"
+        className="bg-background/80 text-foreground hover:bg-background absolute top-1/2 right-3 -translate-y-1/2 rounded-full px-3 py-1 text-xs font-medium shadow-sm"
       >
         Next
       </button>
@@ -56,14 +53,10 @@ export function Carousel({ images, className }: CarouselProps) {
         {images.map((_, i) => (
           <span
             key={i}
-            className={cn(
-              "h-1.5 w-1.5 rounded-full bg-border",
-              i === index && "bg-primary",
-            )}
+            className={cn('bg-border h-1.5 w-1.5 rounded-full', i === index && 'bg-primary')}
           />
         ))}
       </div>
     </div>
   );
 }
-

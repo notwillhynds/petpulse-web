@@ -13,16 +13,8 @@ export default async function UserSettings() {
     redirect('/');
   }
 
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('*')
-    .eq('id', user.id)
-    .single();
+  const { data: profile } = await supabase.from('profiles').select('*').eq('id', user.id).single();
+  console.log(profile);
 
-  return (
-    <UserSettingsClient
-      user={user}
-      initialProfile={profile}
-    />
-  );
+  return <UserSettingsClient user={user} initialProfile={profile} />;
 }
