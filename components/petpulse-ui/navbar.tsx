@@ -34,7 +34,7 @@ type NavItem = {
 const navItems: NavItem[] = [
   { label: 'Home', href: '/' },
   { label: 'About', href: '/about' },
-  { label: 'Features', href: '/#features' },
+  { label: 'Features', href: '/features' },
   { label: 'Subscribe', href: '/#subscribe' },
 ];
 const supabase = createClient();
