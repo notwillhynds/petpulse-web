@@ -2,7 +2,7 @@
 import { createClient } from '@/lib/supabase/client';
 import { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
-import { Loader } from 'lucide-react';
+import { Loader, Info } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -46,17 +46,11 @@ export default function LoginForm() {
 
   const handleSignIn = async () => {
     setSubmitted(true);
-    try {
-      const { error } = await supabase.auth.signInWithPassword({ email, password });
-      if (error?.message.includes('invalid_credentials')) {
-        setError('Invalid credentials');
-        return;
-      }
-    } catch (error) {
-      console.error('Signin: ', error);
-      setError((error as Error).message);
-    } finally {
+    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    if (error) {
+      setError(error.message);
       setSubmitted(false);
+      return;
     }
   };
 
@@ -109,7 +103,12 @@ export default function LoginForm() {
                 'bg-input-bg-alpha border-input-border-alpha focus-visible:border-tint my-2 mb-4 rounded-md border p-1'
               )}
             />
-            {error && <div className="mb-2 text-xs text-red-500">{error}</div>}
+            {error && (
+              <div className="mb-2 flex flex-row gap-2 text-xs text-red-500">
+                <Info className="h-4 w-4" />
+                {error}
+              </div>
+            )}
 
             <button
               className="bg-brand-black mt-2 flex cursor-pointer items-center justify-center rounded-md p-2 text-white hover:opacity-80 active:opacity-70 disabled:cursor-not-allowed disabled:opacity-50"
@@ -164,7 +163,12 @@ export default function LoginForm() {
               'bg-input-bg-alpha border-input-border-alpha focus-visible:border-tint my-2 mb-4 rounded-md border p-1'
             )}
           />
-          {error && <div className="mb-2 text-xs text-red-500">{error}</div>}
+          {error && (
+            <div className="mb-2 flex flex-row gap-2 text-xs text-red-500">
+              <Info className="h-4 w-4" />
+              {error}
+            </div>
+          )}
 
           <button
             className="bg-brand-black mt-2 flex cursor-pointer items-center justify-center rounded-md p-2 text-white hover:opacity-80 active:opacity-70 disabled:cursor-not-allowed disabled:opacity-50"

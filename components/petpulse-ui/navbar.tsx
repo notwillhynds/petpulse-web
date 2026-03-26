@@ -160,8 +160,8 @@ export function Navbar() {
                   }}
                 >
                   <div className="flex items-center gap-2">
-                    {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4, w-4" />}
-                    {theme === 'dark' ? 'Light mode' : 'Dark mode'}
+                    {theme === 'dark' ? <Moon className="h-4 w-4" /> : <Sun className="h-4, w-4" />}
+                    {theme === 'dark' ? 'Dark mode' : 'Light mode'}
                   </div>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
