@@ -44,10 +44,10 @@ const FEATURES = [
   },
 ];
 
-const dogData = getRandDogBreeds() as string[];
-const catData = getRandCatBreeds() as string[];
-
 export default async function FeaturesPage() {
+  const dogData = getRandDogBreeds() as string[];
+  const catData = getRandCatBreeds() as string[];
+
   // Dog API integration is wired up in a separate task — loading skeleton shown as placeholder
   const dogApiStatus = 'loading' as 'loading' | 'error' | 'idle';
 
