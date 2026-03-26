@@ -130,6 +130,7 @@ export async function getDogBreed(breed: string) {
   const data = await fetch(
     `https://api.thedogapi.com/v1/breeds/search?q=${encodeURIComponent(breed)}`,
     {
+      cache: 'no-store',
       headers: {
         'x-api-key': process.env.THE_DOG_API_KEY as string,
       },

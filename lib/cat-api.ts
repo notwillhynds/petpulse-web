@@ -120,6 +120,7 @@ export async function getCatBreed(breed: string) {
   const data = await fetch(
     `https://api.thecatapi.com/v1/breeds/search?q=${encodeURIComponent(breed)}`,
     {
+      cache: 'no-store',
       headers: {
         'x-api-key': process.env.THE_CAT_API_KEY as string,
       },
