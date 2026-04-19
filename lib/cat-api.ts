@@ -120,10 +120,11 @@ export async function getCatBreed(breed: string) {
   const res = await fetch(
     `https://api.thecatapi.com/v1/breeds/search?q=${encodeURIComponent(breed)}`,
     {
-      cache: 'force-cache',
+      next: { revalidate: 3600 },
       headers: { 'x-api-key': process.env.THE_CAT_API_KEY as string },
     }
   );
+  if (!res.ok) return null;
   const breedData = await res.json();
   const data = breedData[0];
   if (!data) return null;
@@ -132,11 +133,11 @@ export async function getCatBreed(breed: string) {
     const imgRes = await fetch(
       `https://api.thecatapi.com/v1/images/${data.reference_image_id}`,
       {
-        cache: 'force-cache',
+        next: { revalidate: 3600 },
         headers: { 'x-api-key': process.env.THE_CAT_API_KEY as string },
       }
     );
-    data.image = await imgRes.json();
+    if (imgRes.ok) data.image = await imgRes.json();
   }
 
   return data;
