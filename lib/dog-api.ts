@@ -127,15 +127,27 @@ export function getRandDogHealthTip(breed: string) {
 
 /* Get breed data from The Dog API */
 export async function getDogBreed(breed: string) {
-  const data = await fetch(
+  const res = await fetch(
     `https://api.thedogapi.com/v1/breeds/search?q=${encodeURIComponent(breed)}`,
     {
-      cache: 'no-store',
-      headers: {
-        'x-api-key': process.env.THE_DOG_API_KEY as string,
-      },
+      cache: 'force-cache',
+      headers: { 'x-api-key': process.env.THE_DOG_API_KEY as string },
     }
   );
-  const breedData = await data.json();
-  return breedData[0];
+  const breedData = await res.json();
+  const data = breedData[0];
+  if (!data) return null;
+
+  if (data.reference_image_id && !data.image?.url) {
+    const imgRes = await fetch(
+      `https://api.thedogapi.com/v1/images/${data.reference_image_id}`,
+      {
+        cache: 'force-cache',
+        headers: { 'x-api-key': process.env.THE_DOG_API_KEY as string },
+      }
+    );
+    data.image = await imgRes.json();
+  }
+
+  return data;
 }
