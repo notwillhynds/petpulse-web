@@ -10,6 +10,7 @@ const TIERS = [
   {
     name: 'Basic',
     price: '$14.99',
+    priceId: 'price_1TEyWsPhGXtyKWKNSCeRWFqX',
     cta: 'Get Started',
     features: [
       'Real-time activity tracking',
@@ -23,6 +24,7 @@ const TIERS = [
   {
     name: 'Pro',
     price: '$34.99',
+    priceId: 'price_1TEyXTPhGXtyKWKN4aGssqRw',
     popular: true,
     cta: 'Subscribe',
     features: [
@@ -38,9 +40,31 @@ const TIERS = [
   },
 ];
 
-const handleSubscribe = (tier: string) => {
-  // TODO: Wire up to Stripe checkout in PET-19
-  console.log(`Subscribe clicked for tier: ${tier}`);
+const handleSubscribe = async (priceId: string) => {
+  try {
+    const res = await fetch('/api/checkout', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ priceId }),
+    });
+
+    let payload: { url?: string; error?: string } = {};
+    try {
+      payload = await res.json();
+    } catch {
+      payload = { error: `Checkout failed (HTTP ${res.status})` };
+    }
+
+    if (!res.ok || payload.error || !payload.url) {
+      alert(payload.error ?? `Checkout failed (HTTP ${res.status})`);
+      return;
+    }
+
+    window.location.href = payload.url;
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Unable to start checkout';
+    alert(message);
+  }
 };
 
 export default function SubscribePage() {
@@ -101,7 +125,7 @@ export default function SubscribePage() {
                   className="w-full"
                   variant="default"
                   size="lg"
-                  onClick={() => handleSubscribe(tier.name)}
+                  onClick={() => handleSubscribe(tier.priceId)}
                 >
                   {tier.cta}
                 </Button>
