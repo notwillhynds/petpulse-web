@@ -2,7 +2,7 @@
 import { createClient } from '@/lib/supabase/client';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
-import { Loader } from 'lucide-react';
+import { Loader, Info } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -133,7 +133,12 @@ export default function SignUpForm() {
                   isPasswordValid && 'border-green-600 focus-visible:border-green-600'
                 )}
               />
-              {error && <div className="mb-2 text-xs text-red-500">{error}</div>}
+              {error && (
+                <div className="mb-2 flex flex-row gap-2 text-xs text-red-500">
+                  <Info className="size-4" />
+                  {error}
+                </div>
+              )}
               <button
                 className="bg-brand-black mt-2 flex cursor-pointer items-center justify-center rounded-md p-2 text-white hover:opacity-80 active:opacity-70 disabled:cursor-not-allowed disabled:opacity-50"
                 disabled={!canSubmit}
@@ -155,7 +160,12 @@ export default function SignUpForm() {
                 onChange={(e) => setToken(e.target.value)}
                 className="my-4 rounded-md border p-1"
               />
-              <div className="mt-2 text-xs text-red-500">{error}</div>
+              {error && (
+                <div className="mb-2 flex flex-row gap-2 text-xs text-red-500">
+                  <Info className="size-4" />
+                  {error}
+                </div>
+              )}
               <button
                 className="bg-brand-black flex cursor-pointer items-center justify-center rounded-md p-2 text-white hover:opacity-80 active:opacity-70 disabled:cursor-not-allowed disabled:opacity-50"
                 disabled={token.length === 0}
@@ -226,7 +236,12 @@ export default function SignUpForm() {
                 isPasswordValid && 'border-green-600 focus-visible:border-green-600'
               )}
             />
-            {error && <div className="mb-2 text-xs text-red-500">{error}</div>}
+            {error && (
+              <div className="mb-2 flex flex-row gap-2 text-xs text-red-500">
+                <Info className="size-4" />
+                {error}
+              </div>
+            )}
             <button
               className="bg-brand-black mt-2 flex cursor-pointer items-center justify-center rounded-md p-2 text-white hover:opacity-80 active:opacity-70 disabled:cursor-not-allowed disabled:opacity-50"
               disabled={!canSubmit}
@@ -248,7 +263,12 @@ export default function SignUpForm() {
               onChange={(e) => setToken(e.target.value)}
               className="my-4 rounded-md border p-1"
             />
-            <div className="mt-2 text-xs text-red-500">{error}</div>
+            {error && (
+              <div className="mb-2 flex flex-row gap-2 text-xs text-red-500">
+                <Info className="size-4" />
+                {error}
+              </div>
+            )}
             <button
               className="bg-brand-black flex cursor-pointer items-center justify-center rounded-md p-2 text-white hover:opacity-80 active:opacity-70 disabled:cursor-not-allowed disabled:opacity-50"
               disabled={token.length === 0}

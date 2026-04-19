@@ -37,9 +37,8 @@ const navItems: NavItem[] = [
   { label: 'Features', href: '/features' },
   { label: 'Subscribe', href: '/subscribe' },
 ];
-const supabase = createClient();
-
 export function Navbar() {
+  const supabase = createClient();
   const pathname = usePathname();
 
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -160,8 +159,8 @@ export function Navbar() {
                   }}
                 >
                   <div className="flex items-center gap-2">
-                    {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4, w-4" />}
-                    {theme === 'dark' ? 'Light mode' : 'Dark mode'}
+                    {theme === 'dark' ? <Moon className="h-4 w-4" /> : <Sun className="h-4, w-4" />}
+                    {theme === 'dark' ? 'Dark mode' : 'Light mode'}
                   </div>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />

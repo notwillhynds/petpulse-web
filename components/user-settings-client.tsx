@@ -155,9 +155,11 @@ export default function UserSettingsClient({ user, initialProfile }: UserSetting
             <div className="flex items-center gap-2">
               <UserIcon className="h-5 w-5" />
               {initialProfile?.first_name && initialProfile?.last_name ? (
-                <CardTitle>
+                <CardTitle className="text-md flex flex-row items-center gap-2">
                   Display Name: {''}
-                  {initialProfile.first_name} {initialProfile.last_name}
+                  <div className="text-md text-chart-2 font-light">
+                    {initialProfile.first_name} {initialProfile.last_name}
+                  </div>
                 </CardTitle>
               ) : (
                 <CardTitle>Display Name</CardTitle>
