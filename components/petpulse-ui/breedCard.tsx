@@ -4,7 +4,7 @@ import { AlertCircle } from 'lucide-react';
 
 export function BreedCardSkeleton() {
   return (
-    <div className="border-border bg-card flex h-full min-h-[280px] flex-col gap-3 rounded-2xl border p-5">
+    <div className="border-border bg-card flex h-full min-h-[280px] animate-pulse flex-col gap-3 rounded-2xl border p-5">
       <div className="bg-muted aspect-4/3 w-full shrink-0 rounded-lg" />
       <div className="bg-muted h-5 w-2/3 rounded" />
       <div className="space-y-2">
@@ -66,7 +66,9 @@ function BreedCardImage({
 function HealthTipBlock({ text }: { text: string }) {
   return (
     <div className="min-w-0 flex-1 space-y-1.5">
-      <p className="text-muted-foreground text-xs font-medium tracking-wide uppercase">Health tip</p>
+      <p className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
+        Health tip
+      </p>
       <p className="text-foreground text-sm leading-relaxed break-words">{text}</p>
     </div>
   );
@@ -86,7 +88,7 @@ export async function DogBreedCard({ breed }: BreedCardProps) {
         width={data?.image?.width}
         height={data?.image?.height}
       />
-      <h3 className="text-foreground min-w-0 text-base font-medium leading-snug">{name}</h3>
+      <h3 className="text-foreground min-w-0 text-base leading-snug font-medium">{name}</h3>
       <HealthTipBlock text={healthTip} />
     </div>
   );
@@ -106,7 +108,7 @@ export async function CatBreedCard({ breed }: BreedCardProps) {
         width={data?.image?.width}
         height={data?.image?.height}
       />
-      <h3 className="text-foreground min-w-0 text-base font-medium leading-snug">{name}</h3>
+      <h3 className="text-foreground min-w-0 text-base leading-snug font-medium">{name}</h3>
       <HealthTipBlock text={healthTip} />
     </div>
   );

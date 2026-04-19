@@ -37,9 +37,8 @@ const navItems: NavItem[] = [
   { label: 'Features', href: '/features' },
   { label: 'Subscribe', href: '/subscribe' },
 ];
-const supabase = createClient();
-
 export function Navbar() {
+  const supabase = createClient();
   const pathname = usePathname();
 
   const [mobileOpen, setMobileOpen] = useState(false);
