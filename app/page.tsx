@@ -59,7 +59,7 @@ export default function Home() {
             <div className="space-y-4">
               <h1 className="text-foreground text-4xl font-semibold tracking-tight text-balance sm:text-5xl lg:text-6xl">
                 Know your pet&apos;s health
-                <span className="text-primary"> before problems before they appear.</span>
+                <span className="text-primary"> before problems appear.</span>
               </h1>
               <p className="text-muted-foreground max-w-xl text-base text-balance sm:text-lg">
                 PetPulse turns your pet&apos;s daily activity into clear health insights, so you can
