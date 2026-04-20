@@ -86,16 +86,7 @@ export default function AboutPage() {
                 PetPulse website. Her work focused on building responsive user interface components
               </p>
             </article>
-
-            <article className="border-border bg-background rounded-2xl border p-5">
-              <h3 className="text-foreground text-lg font-semibold">Anthony Riad</h3>
-              <p className="text-muted-foreground mt-2 text-sm leading-6"></p>
-            </article>
-            <article className="border-border bg-background rounded-2xl border p-5">
-              <h3 className="text-foreground text-lg font-semibold">Makarouis Tagay</h3>
-              <p className="text-muted-foreground mt-2 text-sm leading-6"></p>
-            </article>
-          </div>
+            </div>
         </section>
       </main>
     </div>
