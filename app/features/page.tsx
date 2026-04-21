@@ -102,38 +102,6 @@ export default async function FeaturesPage() {
             })}
           </div>
         </section>
-
-        {/* Dog API section — wired up in a separate task */}
-        <section className="space-y-6">
-          <div className="space-y-1">
-            <div className="flex flex-wrap items-center gap-2">
-              <h2 className="text-foreground text-2xl font-semibold tracking-tight sm:text-3xl">
-                Breed health guide
-              </h2>
-              <Badge variant="outline">Powered by The Dog API</Badge>
-            </div>
-            <p className="text-muted-foreground text-sm sm:text-base">
-              Explore breed-specific health profiles and common care considerations.
-            </p>
-          </div>
-
-          {dogApiStatus === 'error' ? (
-            <BreedSectionError />
-          ) : (
-            <div className="grid items-stretch gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {Array.from({ length: 3 }).map((_, i) => (
-                <Suspense key={i} fallback={<BreedCardSkeleton />}>
-                  <DogBreedCard breed={dogData[i]} priority />
-                </Suspense>
-              ))}
-              {Array.from({ length: 3 }).map((_, i) => (
-                <Suspense key={i} fallback={<BreedCardSkeleton />}>
-                  <CatBreedCard breed={catData[i]} priority={i < 2} />
-                </Suspense>
-              ))}
-            </div>
-          )}
-        </section>
       </main>
     </div>
   );
