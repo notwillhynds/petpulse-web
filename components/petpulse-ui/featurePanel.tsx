@@ -58,12 +58,7 @@ export function FeaturePreviewPanel() {
         </div>
 
         <div className="flex flex-wrap gap-2 text-xs">
-          <div className="border-border/60 bg-background/90 text-muted-foreground rounded-full border px-3 py-1">
-            Alert threshold: configured
-          </div>
-          <div className="border-border/60 bg-background/90 text-muted-foreground rounded-full border px-3 py-1">
-            Report: ready for vet export
-          </div>
+         
         </div>
       </div>
     </div>

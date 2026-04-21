@@ -69,23 +69,31 @@ export default function AboutPage() {
             practical applications of wearable health monitoring technology for pets.
           </p>
 
-          <div className="mt-6 grid gap-4 sm:grid-cols-2">
+          <div className="mt-6 grid gap-4 sm:grid-cols-4">
             <article className="border-border bg-background rounded-2xl border p-5">
               <h3 className="text-foreground text-lg font-semibold">William Hynds</h3>
               <p className="text-muted-foreground mt-2 text-sm leading-6">
-                William contributed to the backend implementation and system configuration for the
-                PetPulse website. His work focused on integrating Supabase for authentication and
-                user management and configuring the database structure.
+      
               </p>
             </article>
 
             <article className="border-border bg-background rounded-2xl border p-5">
               <h3 className="text-foreground text-lg font-semibold">Renad Nofal</h3>
               <p className="text-muted-foreground mt-2 text-sm leading-6">
-                Renad contributed to the frontend implementation and overall interface design of the
-                PetPulse website. Her work focused on building responsive user interface components
               </p>
             </article>
+
+             <article className="border-border bg-background rounded-2xl border p-5">
+              <h3 className="text-foreground text-lg font-semibold">Anthony Riad</h3>
+              <p className="text-muted-foreground mt-2 text-sm leading-6">
+                </p>
+                </article>
+
+                <article className="border-border bg-background rounded-2xl border p-5">
+              <h3 className="text-foreground text-lg font-semibold">Makarious Tagay</h3>
+              <p className="text-muted-foreground mt-2 text-sm leading-6">
+                </p>
+                </article>
             </div>
         </section>
       </main>
