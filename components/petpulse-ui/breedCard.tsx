@@ -1,6 +1,7 @@
 import { getDogBreed, getRandDogHealthTip } from '@/lib/dog-api';
 import { getCatBreed, getRandCatHealthTip } from '@/lib/cat-api';
 import { AlertCircle } from 'lucide-react';
+import Image from 'next/image';
 
 export function BreedCardSkeleton() {
   return (
@@ -45,7 +46,7 @@ function BreedCardImage({
   return (
     <div className="bg-muted/40 w-full shrink-0 overflow-hidden rounded-lg">
       {imageUrl ? (
-        <img
+        <Image
           src={imageUrl}
           alt={name}
           width={width}

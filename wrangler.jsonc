@@ -2,6 +2,10 @@
 	"$schema": "node_modules/wrangler/config-schema.json",
 	"main": ".open-next/worker.js",
 	"name": "petpulse-web",
+	// Wrangler keepNames injects `__name` into bundles; when that leaks into
+	// serialized scripts (e.g. next-themes), the browser throws ReferenceError.
+	// https://opennext.js.org/cloudflare/howtos/keep_names
+	"keep_names": false,
 	"compatibility_date": "2026-04-18",
 	"compatibility_flags": [
 		"nodejs_compat",
