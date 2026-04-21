@@ -30,6 +30,12 @@ export function BreedSectionError() {
 
 interface BreedCardProps {
   breed: string;
+  /** Hint for above-the-fold breed images so Next can preload the likely LCP candidate */
+  priority?: boolean;
+}
+
+function breedImageSrc(imageUrl: string) {
+  return `/api/proxy-image?u=${encodeURIComponent(imageUrl)}`;
 }
 
 function BreedCardImage({
@@ -37,20 +43,23 @@ function BreedCardImage({
   name,
   width,
   height,
+  priority,
 }: {
   imageUrl?: string;
   name: string;
   width?: number;
   height?: number;
+  priority?: boolean;
 }) {
   return (
     <div className="bg-muted/40 w-full shrink-0 overflow-hidden rounded-lg">
       {imageUrl ? (
         <Image
-          src={imageUrl}
+          src={breedImageSrc(imageUrl)}
           alt={name}
-          width={width}
-          height={height}
+          width={width ?? 800}
+          height={height ?? 600}
+          priority={priority}
           unoptimized
           className="block h-auto w-full max-w-full object-contain"
           decoding="async"
@@ -76,7 +85,7 @@ function HealthTipBlock({ text }: { text: string }) {
   );
 }
 
-export async function DogBreedCard({ breed }: BreedCardProps) {
+export async function DogBreedCard({ breed, priority }: BreedCardProps) {
   const data = await getDogBreed(breed);
   const name = data?.name ?? breed;
   const imageUrl = data?.image?.url;
@@ -89,6 +98,7 @@ export async function DogBreedCard({ breed }: BreedCardProps) {
         name={name}
         width={data?.image?.width}
         height={data?.image?.height}
+        priority={priority}
       />
       <h3 className="text-foreground min-w-0 text-base leading-snug font-medium">{name}</h3>
       <HealthTipBlock text={healthTip} />
@@ -96,7 +106,7 @@ export async function DogBreedCard({ breed }: BreedCardProps) {
   );
 }
 
-export async function CatBreedCard({ breed }: BreedCardProps) {
+export async function CatBreedCard({ breed, priority }: BreedCardProps) {
   const data = await getCatBreed(breed);
   const name = data?.name ?? breed;
   const imageUrl = data?.image?.url;
@@ -109,6 +119,7 @@ export async function CatBreedCard({ breed }: BreedCardProps) {
         name={name}
         width={data?.image?.width}
         height={data?.image?.height}
+        priority={priority}
       />
       <h3 className="text-foreground min-w-0 text-base leading-snug font-medium">{name}</h3>
       <HealthTipBlock text={healthTip} />

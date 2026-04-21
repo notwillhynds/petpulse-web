@@ -123,12 +123,12 @@ export default async function FeaturesPage() {
             <div className="grid items-stretch gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {Array.from({ length: 3 }).map((_, i) => (
                 <Suspense key={i} fallback={<BreedCardSkeleton />}>
-                  <DogBreedCard breed={dogData[i]} />
+                  <DogBreedCard breed={dogData[i]} priority />
                 </Suspense>
               ))}
               {Array.from({ length: 3 }).map((_, i) => (
                 <Suspense key={i} fallback={<BreedCardSkeleton />}>
-                  <CatBreedCard breed={catData[i]} />
+                  <CatBreedCard breed={catData[i]} priority={i < 2} />
                 </Suspense>
               ))}
             </div>
