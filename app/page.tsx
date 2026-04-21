@@ -80,15 +80,6 @@ export default function Home() {
                 Mobile alerts
               </span>
             </div>
-            <div className="flex flex-wrap items-center gap-3">
-              <Button size="lg">Get Started </Button>
-              <Button variant="ghost" size="lg">
-                Learn more
-              </Button>
-            </div>
-            <p className="text-muted-foreground text-xs">
-              No hardware yet? Join the waitlist and we&apos;ll notify you when PetPulse ships.
-            </p>
           </div>
 
           <div className="w-full max-w-2xl space-y-4">
@@ -117,10 +108,7 @@ export default function Home() {
                   <CardTitle>{feature.title}</CardTitle>
                   <CardDescription>{feature.description}</CardDescription>
                 </CardHeader>
-                <CardContent className="text-muted-foreground text-xs">
-                  Always-on monitoring with privacy in mind. Your data stays encrypted and under
-                  your control.
-                </CardContent>
+               
               </Card>
             ))}
           </div>
@@ -144,9 +132,7 @@ export default function Home() {
               <li>• Battery life measured in days, not hours.</li>
               <li>• App alerts when something looks off.</li>
             </ul>
-            <Button size="lg" variant="outline">
-              Join the waitlist
-            </Button>
+            
           </div>
 
           <div className="border-border/70 bg-background/80 overflow-hidden rounded-2xl border">
