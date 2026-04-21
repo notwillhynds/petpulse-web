@@ -9,7 +9,7 @@ import {
   BreedSectionError,
 } from '@/components/petpulse-ui/breedCard';
 import { FeaturePreviewPanel } from '@/components/petpulse-ui/featurePanel';
-import { getDogBreed, getRandDogBreeds } from '@/lib/dog-api';
+import { getRandDogBreeds } from '@/lib/dog-api';
 import { getRandCatBreeds } from '@/lib/cat-api';
 
 const FEATURES = [
