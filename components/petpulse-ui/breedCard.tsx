@@ -51,6 +51,7 @@ function BreedCardImage({
           alt={name}
           width={width}
           height={height}
+          unoptimized
           className="block h-auto w-full max-w-full object-contain"
           decoding="async"
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"

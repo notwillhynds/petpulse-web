@@ -3,14 +3,15 @@ import type { NextConfig } from 'next';
 const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
+      // Breed APIs use varying CDN subdomains (cdn2, cdn3, cdn4, …)
       {
         protocol: 'https',
-        hostname: 'cdn4.thedogapi.com',
+        hostname: '*.thedogapi.com',
         pathname: '/**',
       },
       {
         protocol: 'https',
-        hostname: 'cdn2.thecatapi.com',
+        hostname: '*.thecatapi.com',
         pathname: '/**',
       },
       {
