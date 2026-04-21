@@ -144,9 +144,6 @@ export default function Home() {
               <li>• Battery life measured in days, not hours.</li>
               <li>• App alerts when something looks off.</li>
             </ul>
-            <Button size="lg" variant="outline">
-              Join the waitlist
-            </Button>
           </div>
 
           <div className="border-border/70 bg-background/80 overflow-hidden rounded-2xl border">

@@ -6,7 +6,7 @@ const footerLinks = [
   { label: 'Home', href: '/' },
   { label: 'About', href: '/about' },
   { label: 'Features', href: '/features' },
-  { label: 'Subscribe', href: '/subscribe' },
+  { label: 'Waitlist', href: '/#subscribe' },
 ];
 
 export function Footer() {
