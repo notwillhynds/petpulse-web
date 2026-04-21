@@ -35,7 +35,6 @@ const navItems: NavItem[] = [
   { label: 'Home', href: '/' },
   { label: 'About', href: '/about' },
   { label: 'Features', href: '/features' },
-  { label: 'Subscribe', href: '/subscribe' },
 ];
 export function Navbar() {
   const supabase = createClient();
