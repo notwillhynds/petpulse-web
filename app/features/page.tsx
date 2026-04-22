@@ -9,8 +9,6 @@ import {
   BreedSectionError,
 } from '@/components/petpulse-ui/breedCard';
 import { FeaturePreviewPanel } from '@/components/petpulse-ui/featurePanel';
-import { getRandDogBreeds } from '@/lib/dog-api';
-import { getRandCatBreeds } from '@/lib/cat-api';
 
 const FEATURES = [
   {
@@ -45,12 +43,6 @@ const FEATURES = [
 ];
 
 export default async function FeaturesPage() {
-  const dogData = getRandDogBreeds() as string[];
-  const catData = getRandCatBreeds() as string[];
-
-  // Dog API integration is wired up in a separate task — loading skeleton shown as placeholder
-  const dogApiStatus = 'loading' as 'loading' | 'error' | 'idle';
-
   return (
     <div className="bg-background">
       <main className="mx-auto flex w-full max-w-6xl flex-col gap-14 px-4 py-12 sm:px-6 lg:gap-16 lg:px-8 lg:py-16">

@@ -2,27 +2,10 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Menu, Moon, Sun, X, Loader, User as UserIcon, LogOut, Cog } from 'lucide-react';
+import { Moon, Sun } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { createClient } from '@/lib/supabase/client';
-import type { User } from '@supabase/supabase-js';
 import { cn } from '@/lib/utils';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuPortal,
-  DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import SignUpForm from './signup-form';
-import LoginForm from './login-form';
+
 import { useTheme } from 'next-themes';
 import { useRouter } from 'next/navigation';
 
@@ -37,36 +20,16 @@ const navItems: NavItem[] = [
   { label: 'Features', href: '/features' },
 ];
 export function Navbar() {
-  const supabase = createClient();
   const pathname = usePathname();
 
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [loadingAuth, setLoadingAuth] = useState(true);
-  const [user, setUser] = useState<User | null>(null);
+
   const [mounted, setMounted] = useState(false);
   const { theme, resolvedTheme, setTheme } = useTheme();
 
   useEffect(() => setMounted(true), []);
 
-  useEffect(() => {
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((event, session) => {
-      setIsAuthenticated(!!session?.user);
-      setLoadingAuth(false);
-      setUser(session?.user ?? null);
-    });
-    return () => subscription.unsubscribe();
-  }, [isAuthenticated]);
-
   const router = useRouter();
-
-  const handleSignOut = async () => {
-    await supabase.auth.signOut();
-    setIsAuthenticated(false);
-    router.push('/');
-  };
 
   const isActive = (href: string) => {
     if (href === '/') {
@@ -80,12 +43,6 @@ export function Navbar() {
     }
 
     return pathname.startsWith(cleanedHref) && cleanedHref !== '';
-  };
-
-  const getUser = async () => {
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
   };
 
   const navLinks = navItems.map((item) => {
@@ -120,66 +77,6 @@ export function Navbar() {
         </div>
 
         <nav className="hidden items-center gap-6 md:flex">{navLinks}</nav>
-
-        <div className="flex items-center gap-3">
-          {!loadingAuth && !isAuthenticated && (
-            <div className="hidden items-center gap-2 md:flex">
-              <LoginForm />
-              <SignUpForm />
-            </div>
-          )}
-          {!loadingAuth && isAuthenticated && (
-            <DropdownMenu>
-              <DropdownMenuTrigger>
-                <div className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-full px-1.5 py-1.5 text-sm font-medium transition-colors">
-                  <UserIcon className="h-5 w-5" />
-                </div>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" side="bottom" sideOffset={10}>
-                <DropdownMenuLabel className="text-xs font-medium">
-                  <div className="flex items-center gap-2">
-                    <UserIcon className="h-4 w-4" />
-                    {user?.email}
-                  </div>
-                </DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <Link href="/user/settings">
-                  <DropdownMenuItem className="cursor-pointer">
-                    <div className="flex items-center gap-2">
-                      <Cog className="h-4 w-4" />
-                      Settings
-                    </div>
-                  </DropdownMenuItem>
-                </Link>
-                <DropdownMenuItem
-                  className="cursor-pointer"
-                  onClick={() => {
-                    setTheme(theme === 'dark' ? 'light' : 'dark');
-                  }}
-                >
-                  <div className="flex items-center gap-2">
-                    {theme === 'dark' ? <Moon className="h-4 w-4" /> : <Sun className="h-4, w-4" />}
-                    {theme === 'dark' ? 'Dark mode' : 'Light mode'}
-                  </div>
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={handleSignOut} className="cursor-pointer">
-                  <LogOut className="h-4 w-4" />
-                  Sign out
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          )}
-
-          <button
-            type="button"
-            className="border-border text-foreground hover:bg-accent hover:text-accent-foreground inline-flex h-9 w-9 items-center justify-center rounded-full border transition-colors md:hidden"
-            onClick={() => setMobileOpen((open) => !open)}
-            aria-label="Toggle navigation menu"
-          >
-            {mobileOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
-          </button>
-        </div>
         <div className="hidden items-center gap-2 md:flex">
           <button
             type="button"
@@ -205,31 +102,6 @@ export function Navbar() {
           </button>
         </div>
       </div>
-
-      {mobileOpen && (
-        <div className="bg-background border-t md:hidden">
-          <nav className="mx-auto flex max-w-5xl flex-col gap-2 px-4 py-3">{navLinks}</nav>
-          <div className="flex items-center justify-between px-4 py-3">
-            {!loadingAuth && !isAuthenticated && (
-              <div className="flex flex-row items-center gap-2">
-                <LoginForm />
-                <SignUpForm />
-              </div>
-            )}
-            {!loadingAuth && !isAuthenticated && (
-              <button
-                type="button"
-                className="border-border text-foreground hover:bg-accent hover:text-accent-foreground inline-flex h-9 w-9 items-center justify-center rounded-full border transition-colors"
-                onClick={() => {
-                  setTheme(theme === 'dark' ? 'light' : 'dark');
-                }}
-              >
-                {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4, w-4" />}
-              </button>
-            )}
-          </div>
-        </div>
-      )}
     </header>
   );
 }
