@@ -1,13 +1,6 @@
-import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Activity, Bell, ClipboardList, Heart } from 'lucide-react';
-import { Suspense } from 'react';
-import {
-  DogBreedCard,
-  CatBreedCard,
-  BreedCardSkeleton,
-  BreedSectionError,
-} from '@/components/petpulse-ui/breedCard';
+
 import { FeaturePreviewPanel } from '@/components/petpulse-ui/featurePanel';
 
 const FEATURES = [
