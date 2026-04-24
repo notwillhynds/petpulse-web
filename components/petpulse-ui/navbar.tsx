@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Moon, Sun } from 'lucide-react';
+import { Moon, Sun, X, Menu } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { cn } from '@/lib/utils';
 
@@ -77,6 +77,14 @@ export function Navbar() {
         </div>
 
         <nav className="hidden items-center gap-6 md:flex">{navLinks}</nav>
+        <button
+          type="button"
+          className="border-border text-foreground hover:bg-accent hover:text-accent-foreground inline-flex h-9 w-9 items-center justify-center rounded-full border transition-colors md:hidden"
+          onClick={() => setMobileOpen((open) => !open)}
+          aria-label="Toggle navigation menu"
+        >
+          {mobileOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+        </button>
         <div className="hidden items-center gap-2 md:flex">
           <button
             type="button"
@@ -102,6 +110,22 @@ export function Navbar() {
           </button>
         </div>
       </div>
+      {mobileOpen && (
+        <div className="bg-background border-t md:hidden">
+          <nav className="mx-auto flex max-w-5xl flex-col gap-2 px-4 py-3">{navLinks}</nav>
+          <div className="flex items-center justify-between px-4 py-3">
+            <button
+              type="button"
+              className="border-border text-foreground hover:bg-accent hover:text-accent-foreground inline-flex h-9 w-9 items-center justify-center rounded-full border transition-colors"
+              onClick={() => {
+                setTheme(theme === 'dark' ? 'light' : 'dark');
+              }}
+            >
+              {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4, w-4" />}
+            </button>
+          </div>
+        </div>
+      )}
     </header>
   );
 }
