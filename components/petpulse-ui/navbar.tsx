@@ -18,6 +18,7 @@ const navItems: NavItem[] = [
   { label: 'Home', href: '/' },
   { label: 'About', href: '/about' },
   { label: 'Features', href: '/features' },
+  { label: 'devteam@petpulse.dev', href: 'mailto:devteam@petpulse.dev' },
 ];
 export function Navbar() {
   const pathname = usePathname();

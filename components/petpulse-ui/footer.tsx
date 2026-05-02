@@ -36,10 +36,10 @@ export function Footer() {
 
         <div className="flex items-center gap-4">
           <a
-            href="mailto:hello@petpulse.app"
+            href="mailto:devteam@petpulse.dev"
             className="text-muted-foreground hover:text-foreground text-sm font-medium transition-colors"
           >
-            Contact
+            devteam@petpulse.dev
           </a>
         </div>
       </div>
